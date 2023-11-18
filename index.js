@@ -5,7 +5,7 @@ const { token } = require('./config.json');
 const { connectToDatabase } = require('./schemas/database');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-// connectToDatabase();
+connectToDatabase();
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
