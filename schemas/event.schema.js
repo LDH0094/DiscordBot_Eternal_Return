@@ -8,7 +8,9 @@ const eventSchema = new Schema({
   isDone: { type: Boolean },
   finishedDate: { type: Date},
   canceledDate: { type: Date},
-  participants: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  // participants: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  participants: {type: [String]},
+  date: { type: Date},
 });
 
 const EventModel = model('Event', eventSchema);
