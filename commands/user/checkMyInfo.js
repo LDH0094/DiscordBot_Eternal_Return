@@ -9,19 +9,17 @@ const { createUserEmbed } = require('../../embeds/userInfo_embed');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('내_내전정보_확인')
+        .setName('내정보확인')
         .setDescription('나의 내전 정보를 확인합니다.')
     ,
     async execute(interaction) {
         const myId = interaction.user.id;
-
         try {
-                    // Assuming UserModel is your Mongoose model
+            // Assuming UserModel is your Mongoose model
             const foundUser = await UserModel.findOne({ userId: myId });
-        
             if (foundUser) {
               console.log('Found user:', foundUser);
-              const userEmbed = createUserEmbed(foundUser.erName, foundUser.characters, foundUser.rank);
+              const userEmbed = createUserEmbed(foundUser.erName, foundUser.characters, foundUser.rank, foundUser.profileUrl);
               await interaction.reply({ embeds: [userEmbed] });
             } else {
               console.log('User not found');

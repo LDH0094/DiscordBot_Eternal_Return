@@ -5,6 +5,7 @@ const userSchema = new Schema({
   erName: { type: String, required: true },
   characters: { type: [String], required: true },
   rank: {type: String, require: true},
+  profileUrl: {type: String, require: true},
   power: { type: Number},
 });
 
