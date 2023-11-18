@@ -1,13 +1,13 @@
 const { SlashCommandBuilder } = require("discord.js");
 const EventModel = require("../../schemas/event.schema");
 const UserModel = require('../../schemas/user.schema');
-const { createEventJoinEmbed } = require("../../embeds/eventJoin_embed");
+const { createEventJoinEmbed, createEventRejectEmbed } = require("../../embeds/eventJoin_embed");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("내전참가")
+    .setName("내전거절")
     .setDescription(
-      "실행되고 있는 내전을 참가합니다! 내전정보를 등록하지 않으셨다면 등록해주세요!"
+      "실행되고 있는 내전 참가를 포기합니다. 반복된 수락 혹은 거절은 제재대상이 될 수 있습니다."
     ),
   async execute(interaction) {
     const myId = interaction.user.id;
@@ -17,18 +17,18 @@ module.exports = {
       if (foundUser) {
         // Find the most recent event based on the 'createdAt' field
         const recentEvent = await EventModel.findOne({}, {}, { sort: { createdAt: -1 } });
-        console.log(recentEvent);
-        if (recentEvent && !recentEvent.isDone) {
-          // Add the user's ID to the 'participants' array in the recent event
-          recentEvent.participants.addToSet(myId);
-          await recentEvent.save(); // Save the updated event document
 
-          const joinEmbed = createEventJoinEmbed(
-            recentEvent.eventName,
-            recentEvent.startDate,
+        if (recentEvent && !recentEvent.isDone && !recentEvent.isCanceled) {
+          // Remove the user's ID from the 'participants' array in the recent event
+          await EventModel.updateOne(
+            { _id: recentEvent._id }, // Query by event ID
+            { $pull: { participants: myId } } // Remove the ID from the participants array
+          );
+
+          const rejectEmbed = createEventRejectEmbed(
             recentEvent
           );
-          return await interaction.reply({ embeds: [joinEmbed] });
+          return await interaction.reply({ embeds: [rejectEmbed] });
         } else {
           console.log("Event not found");
           return interaction.reply("Could not find the event.");

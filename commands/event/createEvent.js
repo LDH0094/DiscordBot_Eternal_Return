@@ -2,7 +2,10 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { eventAdminId } = require("../../config.json");
 const { unauthorizedEmbed } = require("../../embeds/unauthorized_embed");
 const EventModel = require("../../schemas/event.schema");
-const { createEventEmbed, createWarningEmbed } = require("../../embeds/event_embed");
+const {
+  createEventEmbed,
+  createWarningEmbed,
+} = require("../../embeds/event_embed");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -21,16 +24,11 @@ module.exports = {
         .setRequired(true)
     )
     .addNumberOption((option) =>
-      option
-        .setName("몇시")
-        .setDescription("24시 기준")
-        .setRequired(true)
-    ).addNumberOption((option) =>
-    option
-      .setName("몇분")
-      .setDescription("0~59분")
-      .setRequired(true)
-  ),
+      option.setName("몇시").setDescription("24시 기준").setRequired(true)
+    )
+    .addNumberOption((option) =>
+      option.setName("몇분").setDescription("0~59분").setRequired(true)
+    ),
   async execute(interaction) {
     const postDays = interaction.options.getNumber("몇일뒤");
     const eventName =
@@ -43,7 +41,9 @@ module.exports = {
     const newEvent = new EventModel({
       eventName: eventName,
       startDate: currentDate,
-      date: new Date(),
+      createdAt: new Date(),
+      isCanceled: false,
+      isDone: false,
     });
     if (!interaction.member.roles.cache.has(eventAdminId))
       return interaction.reply({ embeds: [unauthorizedEmbed] });
@@ -53,24 +53,24 @@ module.exports = {
       {},
       { sort: { createdAt: -1 } }
     );
-
-    if (recentEvent && !recentEvent.isDone || !recentEvent.isCanceled) {
+    console.log("recent: ", recentEvent);
+    if (recentEvent && !recentEvent.isDone) {
       const eventWarningEmbed = createWarningEmbed(
         recentEvent.eventName,
         recentEvent.startDate,
+        recentEvent
       );
       return await interaction.reply({ embeds: [eventWarningEmbed] });
     } else {
-        newEvent
+      newEvent
         .save()
         .then((result) => {
-          const eventEmbed = createEventEmbed(eventName, currentDate, result);
+          const eventEmbed = createEventEmbed(result);
           return interaction.reply({ embeds: [eventEmbed] });
         })
         .catch((error) => {
           console.error("Error saving document:", error);
         });
     }
-    
   },
 };

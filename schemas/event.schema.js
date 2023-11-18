@@ -10,7 +10,7 @@ const eventSchema = new Schema({
   canceledDate: { type: Date},
   // participants: [{ type: Schema.Types.ObjectId, ref: 'User' }]
   participants: {type: [String]},
-  date: { type: Date},
+  createdAt: { type: Date},
 });
 
 const EventModel = model('Event', eventSchema);

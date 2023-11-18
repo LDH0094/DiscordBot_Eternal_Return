@@ -1,9 +1,9 @@
 const { eventRegisterChannelUrl } = require("../hooks/channel-hooks");
 
-function createEventEmbed(eventName, date, eventData) {
+function createEventEmbed(eventData) {
     const eventEmbed = {
         color: 0x458DAA,
-        title: eventName,
+        title: eventData.eventName,
         description: '내전이 개최되었습니다. ',
         thumbnail: {
             url: 'https://t1.kakaocdn.net/gamepub/gaia/image/common/fe925cec72d6f37a6c1f2c9757c9579b3eb9c91c',
@@ -11,7 +11,7 @@ function createEventEmbed(eventName, date, eventData) {
         fields: [
             {
                 name: '자세한 정보',
-                value: `<t:${Math.floor(date.getTime() / 1000)}> 에 시행될 예정입니다. \n [여기를 클릭해 신청하세요.](${eventRegisterChannelUrl})`,
+                value: `<t:${Math.floor(eventData.startDate.getTime() / 1000)}> 에 시행될 예정입니다. \n [여기를 클릭해 신청하세요.](${eventRegisterChannelUrl})`,
             },
             {
                 name: '내전 ID',
@@ -24,7 +24,7 @@ function createEventEmbed(eventName, date, eventData) {
     return eventEmbed ;
 }
 
-function createWarningEmbed(eventName, date) {
+function createWarningEmbed(eventName, date, eventData) {
     const eventEmbed = {
         color: 0xff0000,
         title: eventName,
@@ -36,6 +36,10 @@ function createWarningEmbed(eventName, date) {
             {
                 name: '자세한 정보',
                 value: `<t:${Math.floor(date.getTime() / 1000)}> 에 시행될 예정입니다.`,
+            },
+            {
+                name: '내전 ID',
+                value: `${eventData._id}`,
             }
         ],
         timestamp: new Date().toISOString(),
