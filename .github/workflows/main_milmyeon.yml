@@ -59,7 +59,7 @@ jobs:
       - name: "Start Node.js application"
         run: |
           cd $GITHUB_WORKSPACE
-          ls
+          ls -la
           unzip -q node-app/release.zip -d node-app/
           cd node-app  # Replace 'node-app' with the correct path to your extracted code
           node index.js
