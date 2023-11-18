@@ -6,7 +6,7 @@ const { createEventEmbed } = require('../../embeds/event_embed');
 const UserModel = require('../../schemas/user.schema');
 const { createUserEmbed } = require('../../embeds/userInfo_embed');
 
-
+//
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('내정보확인')
