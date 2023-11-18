@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       - name: npm install, build, and test
         run: |
@@ -41,22 +41,24 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
     steps:
       # ... (previous steps remain unchanged)
 
-      - name: 'Deploy to Azure Web App'
+      - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'milmyeon'
-          slot-name: 'Production'
+          app-name: "milmyeon"
+          slot-name: "Production"
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8D4CE652A8264DA7A3A3BCEA229D85C1 }}
 
-      - name: 'Start Node.js application'
+      - name: "Start Node.js application"
         run: |
-          cd $HOME/site/wwwroot
+          cd $GITHUB_WORKSPACE
+          unzip -q node-app/release.zip -d node-app/
+          cd node-app  # Replace 'node-app' with the correct path to your extracted code
           node index.js
