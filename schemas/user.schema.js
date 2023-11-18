@@ -4,6 +4,7 @@ const userSchema = new Schema({
   userId: { type: String, required: true },
   erName: { type: String, required: true },
   characters: { type: [String], required: true },
+  rank: {type: String, require: true},
   power: { type: Number},
 });
 

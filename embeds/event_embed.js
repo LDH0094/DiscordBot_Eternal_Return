@@ -2,7 +2,7 @@ const { eventRegisterChannelUrl } = require("../hooks/channel-hooks");
 
 function createEventEmbed(eventName, date) {
     const eventEmbed = {
-        color: 0xff0000,
+        color: 0x458DAA,
         title: eventName,
         description: '내전이 개최되었습니다. ',
         thumbnail: {
@@ -11,8 +11,7 @@ function createEventEmbed(eventName, date) {
         fields: [
             {
                 name: '자세한 정보',
-                value: `<t:${Math.floor(date.getTime() / 1000)}> 에 시행될 예정입니다. \n [여기를 클릭해 신청하세요](${eventRegisterChannelUrl})`,
-
+                value: `<t:${Math.floor(date.getTime() / 1000)}> 에 시행될 예정입니다. \n [여기를 클릭해 신청하세요.](${eventRegisterChannelUrl})`,
             }
         ],
         timestamp: new Date().toISOString(),
