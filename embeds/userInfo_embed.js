@@ -36,6 +36,9 @@ function createUserEmbed(nickname, most, rank, url) {
                 inline: true,
             },
         ],
+        image: {
+            url: url,
+        },
         timestamp: new Date().toISOString(),
     };
 
