@@ -27,7 +27,7 @@ jobs:
           app-name: "milmyeon"
           slot-name: "Production"
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8D4CE652A8264DA7A3A3BCEA229D85C1 }}
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_5bde91d49f9044ca9ee3067d05f7cc5b }}
 
       - name: Start Node.js application
         run: |
