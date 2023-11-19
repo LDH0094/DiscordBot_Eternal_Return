@@ -8,8 +8,8 @@ const { createUserEmbed } = require("../../embeds/userInfo_embed");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("내전정보")
-    .setDescription("나의 내전 정보를 입력합니다.")
+    .setName("나의내전정보")
+    .setDescription("나의 내전 정보를 입력하거나 수정합니다.")
     .addStringOption((option) =>
       option
         .setName("닉네임")
@@ -42,6 +42,11 @@ module.exports = {
         .setRequired(true)
     )
     .addStringOption((option) =>
+    option
+      .setName("내소개")
+      .setDescription("나의 소개를 적어주세요")
+  )
+    .addStringOption((option) =>
       option
         .setName("url")
         .setDescription(
@@ -53,6 +58,7 @@ module.exports = {
     const erNickname =
       interaction.options.getString("닉네임") ?? "No nickname defined.";
     const erMost = interaction.options.getString("모스트") ?? "";
+    const profileDescription = interaction.options.getString("내소개") ?? "";
     const _rank = interaction.options.getString("티어");
     const userId = interaction.user.id;
     const profileUrl = interaction.options.getString("url") ?? "https://t1.kakaocdn.net/gamepub/gaia/image/common/10ffb001f0382b413ead4be8f56a939a034dfc77"
@@ -67,6 +73,7 @@ module.exports = {
       characters: erMosts,
       rank: _rank,
       profileUrl: profileUrl,
+      profileDescription: profileDescription
     };
 
     try {
@@ -82,10 +89,7 @@ module.exports = {
 
       if (updatedUser) {
         const userEmbed = createUserEmbed(
-            newUser.erName,
-            newUser.characters,
-            newUser.rank,
-            newUser.profileUrl,
+            updatedUser
         );
         return interaction.reply({ embeds: [userEmbed] });
       }

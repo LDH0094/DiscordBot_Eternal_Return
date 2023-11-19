@@ -21,14 +21,14 @@ module.exports = {
     .addStringOption((option) =>
       option.setName("내전이름").setDescription("내전이름을 수정합니다.")
     )
+    .addStringOption((option) =>
+      option.setName("내전설명").setDescription("내전설명을 수정합니다.")
+    )
+    .addBooleanOption((option) =>
+    option.setName("종료").setDescription("종료가 되었나요?")
+  )
     .addNumberOption((option) =>
       option.setName("몇일뒤").setDescription("몇일 뒤에 시작할지 수정합니다.")
-    )
-    .addBooleanOption((option) =>
-      option.setName("종료").setDescription("종료가 되었나요?")
-    )
-    .addBooleanOption((option) =>
-      option.setName("취소").setDescription("취소가 되었나요?")
     )
     .addNumberOption((option) =>
       option.setName("몇시").setDescription("24시 기준")
@@ -42,6 +42,7 @@ module.exports = {
     const postDays = interaction.options.getNumber("몇일뒤");
     const eventName =
       interaction.options.getString("내전이름") ?? "";
+      const eventDescription = interaction.options.getString("내전설명") ?? "";
     const currentDate = new Date();
     const getHours = interaction.options.getNumber("몇시");
     const getMins = interaction.options.getNumber("몇분");
@@ -49,7 +50,7 @@ module.exports = {
     currentDate.setHours(getHours, getMins, 0, 0);
 
     const _isDone = interaction.options.getBoolean("종료");
-    const _isCanceled = interaction.options.getBoolean("취소");
+  
 
 
     if (!interaction.member.roles.cache.has(eventAdminId))
@@ -62,7 +63,7 @@ module.exports = {
         { sort: { createdAt: -1 } }
       );
 
-      if (recentEvent && !recentEvent.isDone && !recentEvent.isCanceled) {
+      if (recentEvent && !recentEvent.isDone ) {
         console.log("recent: ", recentEvent);
         // Add the user's ID to the 'participants' array in the recent event
         const updatedEvent = await EventModel.findOneAndUpdate(
@@ -70,12 +71,11 @@ module.exports = {
           {
             eventName: eventName === "" ? recentEvent.eventName: eventName,
             startDate: currentDate ?? recentEvent.currentDate,
-            isDone: _isDone,
-            isCanceled: _isCanceled,
+            description: eventDescription === "" ? recentEvent.eventName: eventDescription,
+            isDone: _isDone ?? recentEvent.isDone,
           },
           { new: true } // To return the updated document
         );
-
         if (updatedEvent) {
           const eventEmbed = createEventEmbed(
             updatedEvent

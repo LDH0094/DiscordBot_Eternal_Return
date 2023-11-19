@@ -17,6 +17,12 @@ module.exports = {
         .setDescription("내전이름을 정해주세요.")
         .setRequired(true)
     )
+    .addStringOption((option) =>
+      option
+        .setName("내전설명")
+        .setDescription("내전 설명을 정해주세요.")
+        .setRequired(true)
+    )
     .addNumberOption((option) =>
       option
         .setName("몇일뒤")
@@ -32,17 +38,19 @@ module.exports = {
   async execute(interaction) {
     const postDays = interaction.options.getNumber("몇일뒤");
     const eventName =
-      interaction.options.getString("내전이름") ?? "No event name";
+      interaction.options.getString("내전이름");
+    const eventDescription = interaction.options.getString("내전설명");
     const currentDate = new Date();
     const getHours = interaction.options.getNumber("몇시");
     const getMins = interaction.options.getNumber("몇분");
+  
     currentDate.setDate(currentDate.getDate() + postDays);
     currentDate.setHours(getHours, getMins, 0, 0);
     const newEvent = new EventModel({
       eventName: eventName,
       startDate: currentDate,
       createdAt: new Date(),
-      isCanceled: false,
+      description: eventDescription,
       isDone: false,
     });
     if (!interaction.member.roles.cache.has(eventAdminId))
@@ -55,11 +63,7 @@ module.exports = {
     );
     console.log("recent: ", recentEvent);
     if (recentEvent && !recentEvent.isDone) {
-      const eventWarningEmbed = createWarningEmbed(
-        recentEvent.eventName,
-        recentEvent.startDate,
-        recentEvent
-      );
+      const eventWarningEmbed = createWarningEmbed(recentEvent);
       return await interaction.reply({ embeds: [eventWarningEmbed] });
     } else {
       newEvent

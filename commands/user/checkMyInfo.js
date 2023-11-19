@@ -11,7 +11,7 @@ const { createUserEmbed } = require('../../embeds/userInfo_embed');
 //
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('내정보확인')
+        .setName('나의정보확인')
         .setDescription('나의 내전 정보를 확인합니다.')
     ,
     async execute(interaction) {
@@ -21,7 +21,7 @@ module.exports = {
             const foundUser = await UserModel.findOne({ userId: myId });
             if (foundUser) {
               console.log('Found user:', foundUser);
-              const userEmbed = createUserEmbed(foundUser.erName, foundUser.characters, foundUser.rank, foundUser.profileUrl);
+              const userEmbed = createUserEmbed(foundUser);
               await interaction.reply({ embeds: [userEmbed] });
             } else {
               console.log('User not found');
