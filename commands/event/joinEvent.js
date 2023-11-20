@@ -20,7 +20,7 @@ module.exports = {
         console.log(recentEvent);
         if (recentEvent && !recentEvent.isDone) {
           // Add the user's ID to the 'participants' array in the recent event
-          recentEvent.participants.addToSet(myId);
+          recentEvent.participants.addToSet(foundUser._id);
           await recentEvent.save(); // Save the updated event document
 
           const joinEmbed = createEventJoinEmbed(

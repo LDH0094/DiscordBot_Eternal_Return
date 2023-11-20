@@ -1,8 +1,9 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
 const { connectToDatabase } = require('./schemas/database');
+
+require('dotenv').config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env' });
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 connectToDatabase();
@@ -46,4 +47,4 @@ client.on(Events.InteractionCreate, async (interaction) => {
 	}
 });
 
-client.login(token);
+client.login(process.env.TOKEN);

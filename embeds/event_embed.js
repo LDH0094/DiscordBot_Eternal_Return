@@ -20,22 +20,22 @@ function createEventEmbed(eventData) {
             },
             {
                 name: '1게임 POG',
-                value: eventData.pogList[0] === "" ? '\u200b':`<@${eventData.pogList[0]}>`,
+                value: eventData.isDone ? `<@${eventData.pogList[0]}>`: '\u200b',
                 inline: true,
             },
             {
                 name: '2게임 POG',
-                value: eventData.pogList[1] === "" ? '\u200b': `<@${eventData.pogList[1]}>` ,
+                value: eventData.isDone ? `<@${eventData.pogList[1]}>`: '\u200b' ,
                 inline: true,
             },
             {
                 name:  '3게임 POG',
-                value: eventData.pogList[2] === "" ? '\u200b': `<@${eventData.pogList[2]}>`,
+                value: eventData.isDone ? `<@${eventData.pogList[2]}>`:'\u200b',
                 inline: true,
             },
             {
                 name: '4게임 POG',
-                value: eventData.pogList[3] === "" ? '\u200b': `<@${eventData.pogList[3]}>`,
+                value: eventData.isDone ? `<@${eventData.pogList[3]}>`: '\u200b',
                 inline: true,
             },
             {

@@ -6,7 +6,7 @@ const {
   createWarningEmbed,
 } = require("../../embeds/event_embed");
 const { unauthorizedEmbed } = require("../../embeds/unauthorized_embed");
-const { eventAdminId } = require("../../config.json");
+require('dotenv').config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env' });
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -53,7 +53,7 @@ module.exports = {
   
 
 
-    if (!interaction.member.roles.cache.has(eventAdminId))
+    if (!interaction.member.roles.cache.has(process.env.EVENT_ADMIN_ID))
       return interaction.reply({ embeds: [unauthorizedEmbed] });
     try {
       // Find the most recent event based on the 'createdAt' field

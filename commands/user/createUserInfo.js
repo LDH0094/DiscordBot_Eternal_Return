@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { eventAdminId } = require("../../config.json");
+require('dotenv').config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env' });
 const { unauthorizedEmbed } = require("../../embeds/unauthorized_embed");
 const EventModel = require("../../schemas/event.schema");
 const { createEventEmbed } = require("../../embeds/event_embed");

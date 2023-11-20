@@ -5,7 +5,7 @@ const {
   createPOGEmbed,
 } = require("../../embeds/pog_embed");
 const { unauthorizedEmbed } = require("../../embeds/unauthorized_embed");
-const { eventAdminId } = require("../../config.json");
+require('dotenv').config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env' });
 const mongoose = require('mongoose');
 
 module.exports = {
@@ -28,16 +28,19 @@ module.exports = {
       option
         .setName("2게임팟지")
         .setDescription("2게임의 POG 등록 혹은 업데이트")
+        .setRequired(true)
     )
     .addUserOption((option) =>
       option
         .setName("3게임팟지")
         .setDescription("3게임의 POG 등록 혹은 업데이트")
+        .setRequired(true)
     )
     .addUserOption((option) =>
       option
         .setName("4게임팟지")
         .setDescription("4게임의 POG 등록 혹은 업데이트")
+        .setRequired(true)
     ),
   async execute(interaction) {
     const eventID = interaction.options.getString("내전아이디");
@@ -55,7 +58,7 @@ module.exports = {
     pogList[3] = fourthPOG;
 
     console.log("poglist: ", pogList);
-    if (!interaction.member.roles.cache.has(eventAdminId))
+    if (!interaction.member.roles.cache.has(process.env.EVENT_ADMIN_ID))
       return interaction.reply({ embeds: [unauthorizedEmbed] });
     try {
       // Find the most recent event based on the 'createdAt' field

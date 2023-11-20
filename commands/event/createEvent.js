@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { eventAdminId } = require("../../config.json");
+require('dotenv').config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env' });
 const { unauthorizedEmbed } = require("../../embeds/unauthorized_embed");
 const EventModel = require("../../schemas/event.schema");
 const {
@@ -53,7 +53,7 @@ module.exports = {
       description: eventDescription,
       isDone: false,
     });
-    if (!interaction.member.roles.cache.has(eventAdminId))
+    if (!interaction.member.roles.cache.has(process.env.EVENT_ADMIN_ID))
       return interaction.reply({ embeds: [unauthorizedEmbed] });
 
     const recentEvent = await EventModel.findOne(

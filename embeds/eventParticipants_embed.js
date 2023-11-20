@@ -1,5 +1,6 @@
+const UserModel = require('../schemas/user.schema');
 
-function createEventParticipantsEmbed(eventName, date, participants) {
+async function createEventParticipantsEmbed(eventName, date, participants) {
     const eventEmbed = {
         color: 0x458DAA,
         title: eventName,
@@ -14,13 +15,33 @@ function createEventParticipantsEmbed(eventName, date, participants) {
             },
             {
                 name: '참가자들 명단',
-                value: participants.map(userId => `<@${userId}>`).join('\n') ?? "참가자들이 존재하지 않습니다.",
-            },
+                value: ' ',
+            }
         ],
         timestamp: new Date().toISOString(),
     };
 
-    return eventEmbed ;
+    try {
+        // Fetch user details for participants using population
+        const populatedParticipants = await UserModel.find({ _id: { $in: participants } });
+        console.log("users: ", populatedParticipants.length);
+        if (populatedParticipants.length === 0){
+            console.log('return!!');
+            return eventEmbed;
+        }
+        // Generating formatted participant list witsh user information
+        const participantList = populatedParticipants.map((user, index) => {
+            const charatersWithSpaces = user.characters.join(' ');
+            return `${index + 1}번 <@${user.userId}> ${user.erName} [${user.rank}] ${charatersWithSpaces}`; // Modify as per your UserModel structure
+        });
+
+        eventEmbed.fields[1].value = participantList.join('\n') || "참가자들이 존재하지 않습니다.";
+    } catch (err) {
+        console.error('Error while fetching participants:', err);
+        eventEmbed.fields[1].value = '참가자 정보를 가져오는 중 오류가 발생했습니다.';
+    }
+
+    return eventEmbed;
 }
 
 module.exports = {createEventParticipantsEmbed};
