@@ -6,6 +6,7 @@ const {
 } = require("../../embeds/pog_embed");
 const { unauthorizedEmbed } = require("../../embeds/unauthorized_embed");
 const { eventAdminId } = require("../../config.json");
+const mongoose = require('mongoose');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -76,7 +77,16 @@ module.exports = {
 
           if (updatedEvent) {
             const pogEmbed = createPOGEmbed(updatedEvent);
-            return await interaction.reply({ embeds: [pogEmbed] });
+            await interaction.reply({ embeds: [pogEmbed] });
+            for (const pog of pogList) {
+                const user = await UserModel.findOne({ userId: pog });
+                if (user) {
+                  user.pogList.push(new mongoose.Types.ObjectId(updatedEvent._id));
+                  await user.save();
+                } else {
+                  console.log(`User with ID ${pog} not found.`);
+                }
+              }
           } else {
             return interaction.reply("Event with specified ID not found.");
           }

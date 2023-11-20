@@ -8,7 +8,7 @@ const userSchema = new Schema({
   rank: {type: String, require: true},
   profileUrl: {type: String, require: true},
   power: { type: Number},
-  pogHistory: { type: [String]},
+  pogList: [{ type: Schema.Types.ObjectId, ref: 'Event' }], // Reference to EventModel
 });
 
 const UserModel = model('User', userSchema);

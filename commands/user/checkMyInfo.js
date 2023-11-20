@@ -21,7 +21,9 @@ module.exports = {
             const foundUser = await UserModel.findOne({ userId: myId });
             if (foundUser) {
               console.log('Found user:', foundUser);
-              const userEmbed = createUserEmbed(foundUser);
+              const events = await EventModel.find({ _id: { $in: foundUser.pogList } });
+              console.log('Found event:', events);
+              const userEmbed = createUserEmbed(foundUser, events);
               await interaction.reply({ embeds: [userEmbed] });
             } else {
               console.log('User not found');

@@ -1,7 +1,8 @@
 const { eventRegisterChannelUrl } = require("../hooks/channel-hooks");
 
-function createUserEmbed(user) {
+function createUserEmbed(user, events) {
     const formattedValues = user.characters.join(', ')
+    const eventNames = events.map(event => `* ${event.eventName}        내전ID: (${event._id}).`).join('\n');
     const eventEmbed = {
         color: 0x458DAA,
         title: '나의 정보',
@@ -36,13 +37,8 @@ function createUserEmbed(user) {
                 inline: true,
             },
             {
-                name: '내전 참가 기록',
-                value: '* 제 1차 공식내전 1세트 POG (20102304).',
-                inline: false,
-            },
-            {
                 name: '내전 전적 POG',
-                value: '* 제 1차 공식내전 1세트 POG (20102304).',
+                value: eventNames || '내전 정보 없음',
                 inline: false,
             },
         ],

@@ -76,6 +76,10 @@ module.exports = {
           },
           { new: true } // To return the updated document
         );
+        if(_isDone) return 
+
+
+
         if (updatedEvent) {
           const eventEmbed = createEventEmbed(
             updatedEvent
