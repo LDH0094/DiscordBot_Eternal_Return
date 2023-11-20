@@ -1,3 +1,3 @@
-const eventRegisterChannelUrl = "https://discord.gg/C64BgeVu"
+const eventRegisterChannelUrl = "https://discord.gg/E7TjGc4B"
 
 module.exports = {eventRegisterChannelUrl}
