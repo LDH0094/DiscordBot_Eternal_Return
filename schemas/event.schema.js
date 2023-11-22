@@ -11,8 +11,9 @@ const eventSchema = new Schema({
   // participants: [{ type: Schema.Types.ObjectId, ref: 'User' }]
   participants: {type: [String]},
   createdAt: { type: Date},
-  pogList: [{ type: Schema.Types.ObjectId, ref: 'User' }]
-});
+  pogList:{type: [String]} 
+})
+
 
 const EventModel = model('Event', eventSchema);
 

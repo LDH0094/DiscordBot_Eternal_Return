@@ -51,11 +51,14 @@ module.exports = {
     const thirdPOG = interaction.options.getUser("3게임팟지")?.id ?? "";
     const fourthPOG = interaction.options.getUser("4게임팟지")?.id ?? "";
     
+
+    
     let pogList = [];
     pogList[0] = firstPOG;
     pogList[1] = secondPOG;
     pogList[2] = thirdPOG;
     pogList[3] = fourthPOG;
+
 
     console.log("poglist: ", pogList);
     if (!interaction.member.roles.cache.has(process.env.EVENT_ADMIN_ID))
@@ -84,8 +87,10 @@ module.exports = {
             for (const pog of pogList) {
                 const user = await UserModel.findOne({ userId: pog });
                 if (user) {
-                  user.pogList.push(new mongoose.Types.ObjectId(updatedEvent._id));
-                  await user.save();
+                  if (!user.pogList.includes(updatedEvent._id)) {
+                    user.pogList.push(updatedEvent._id); // Push the event ID to the user's pogList
+                    await user.save(); // Save the user to the database
+                }
                 } else {
                   console.log(`User with ID ${pog} not found.`);
                 }

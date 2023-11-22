@@ -17,14 +17,14 @@ module.exports = {
       if (foundUser) {
         // Find the most recent event based on the 'createdAt' field
         const recentEvent = await EventModel.findOne({}, {}, { sort: { createdAt: -1 } });
-
-        if (recentEvent && !recentEvent.isDone && !recentEvent.isCanceled) {
+        
+        if (recentEvent && !recentEvent.isDone) {
           // Remove the user's ID from the 'participants' array in the recent event
-          await EventModel.updateOne(
+          const result = await EventModel.updateOne(
             { _id: recentEvent._id }, // Query by event ID
-            { $pull: { participants: myId } } // Remove the ID from the participants array
+            { $pull: { participants: foundUser._id } } // Remove the ID from the participants array
           );
-
+          console.log("res: ", result);
           const rejectEmbed = createEventRejectEmbed(
             recentEvent
           );

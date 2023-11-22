@@ -21,8 +21,12 @@ module.exports = {
             const foundUser = await UserModel.findOne({ userId: myId });
             if (foundUser) {
               console.log('Found user:', foundUser);
-              const events = await EventModel.find({ _id: { $in: foundUser.pogList } });
-              console.log('Found event:', events);
+              const eventPromises = foundUser.pogList.map(async (eventId) => {
+                return await EventModel.findById(eventId); // Assuming eventId is the ID of the event
+            });
+
+            // Wait for all event promises to resolve
+            const events = await Promise.all(eventPromises);              console.log('Found event:', events);
               const userEmbed = createUserEmbed(foundUser, events);
               await interaction.reply({ embeds: [userEmbed] });
             } else {
