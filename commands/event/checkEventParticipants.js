@@ -28,6 +28,8 @@ module.exports = {
         recentEvent.participants
       );
       return await interaction.reply({ embeds: [eventParticipantsEmbed] });
+    } else {
+      return interaction.reply("진행되고 있는 내전이 존재하지 않습니다.");
     }
   },
 };
