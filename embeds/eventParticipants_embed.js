@@ -23,7 +23,18 @@ async function createEventParticipantsEmbed(eventName, date, participants) {
 
     try {
         // Fetch user details for participants using population
-        const populatedParticipants = await UserModel.find({ _id: { $in: participants } });
+        const populatedParticipants = []
+        for (const participantId of participants) {
+            try {
+                const user = await UserModel.findById(participantId);
+                if (user) {
+                    populatedParticipants.push(user);
+                }
+            } catch (error) {
+                console.error(`Error finding user with ID ${participantId}: ${error}`);
+                // Handle the error as needed
+            }
+        }
         console.log("users: ", populatedParticipants.length);
         if (populatedParticipants.length === 0){
             console.log('return!!');
