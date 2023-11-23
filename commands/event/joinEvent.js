@@ -19,11 +19,8 @@ module.exports = {
         const recentEvent = await EventModel.findOne({}, {}, { sort: { createdAt: -1 } });
         console.log(recentEvent);
         if (recentEvent && !recentEvent.isDone) {
-  
-          if (!recentEvent.participants.includes(foundUser._id)) {
-            recentEvent.participants.push(foundUser._id); // Push the event ID to the user's pogList
-            await recentEvent.save(); // Save the user to the database
-        }
+          recentEvent.participants.addToSet(foundUser._id);
+          await recentEvent.save();
           const joinEmbed = createEventJoinEmbed(
             recentEvent.eventName,
             recentEvent.startDate,
