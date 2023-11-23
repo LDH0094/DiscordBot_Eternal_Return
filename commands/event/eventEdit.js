@@ -54,9 +54,7 @@ module.exports = {
     currentDate.setDate(currentDate.getDate() + postDays);
     currentDate.setHours(getHours, getMins, 0, 0);
     const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
-    const koreanTimezoneOffset = -9 * 60 * 60; // Korea Standard Time (KST) is UTC+9
-    const koreanTimestamp = timestampInSeconds + koreanTimezoneOffset;
-
+    const koreanTimestamp = timestampInSeconds ;
 
     if (!interaction.member.roles.cache.has(process.env.EVENT_ADMIN_ID))
       return interaction.reply({ embeds: [unauthorizedEmbed] });
