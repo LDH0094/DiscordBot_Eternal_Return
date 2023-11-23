@@ -35,7 +35,7 @@ function createEventRejectEmbed(eventData) {
         fields: [
             {
                 name: '자세한 정보',
-                value: `<t:${Math.floor(eventData.startDate.getTime() / 1000)}> 에 시행될 예정이였던 내전을 취소했습니다.`,
+                value: `<t:${eventData.startDate}> 에 시행될 예정이였던 내전을 취소했습니다.`,
             },
             {
                 name: '내전 ID',

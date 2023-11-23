@@ -53,6 +53,7 @@ module.exports = {
     currentDate.setHours(getHours, getMins, 0, 0);
     const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
     const koreanTimestamp = timestampInSeconds ;
+    console.log("my date: ", currentDate);
 
     if (!interaction.member.roles.cache.has(process.env.EVENT_ADMIN_ID))
       return interaction.reply({ embeds: [unauthorizedEmbed] });

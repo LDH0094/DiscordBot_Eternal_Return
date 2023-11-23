@@ -43,9 +43,10 @@ module.exports = {
     const currentDate = new Date();
     const getHours = interaction.options.getNumber("몇시");
     const getMins = interaction.options.getNumber("몇분");
-  
+    console.log("hors:", getHours);
+    console.log("getMins:", getMins);
     currentDate.setDate(currentDate.getDate() + postDays);
-    currentDate.setHours(getHours, getMins, 0, 0);
+    currentDate.setHours(getHour, getMins, 0, 0);
     const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
     const koreanTimestamp = timestampInSeconds
     console.log("my date: ", currentDate);
