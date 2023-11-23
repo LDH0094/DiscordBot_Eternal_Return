@@ -1,6 +1,7 @@
 const { eventRegisterChannelUrl } = require("../hooks/channel-hooks");
 
 function createEventEmbed(eventData) {
+    
     const eventEmbed = {
         color: eventData.isDone ? 0x0c2a6e: 0x458DAA,
         title: eventData.eventName,
@@ -11,7 +12,7 @@ function createEventEmbed(eventData) {
         fields: [
             {
                 name: '자세한 정보',
-                value: eventData.isDone ? '종료된 내전입니다.' :`<t:${Math.floor(eventData.startDate.getTime() / 1000)}> 에 시행될 예정입니다. \n [여기를 클릭해 신청하세요.](${eventRegisterChannelUrl})`,
+                value: eventData.isDone ? '종료된 내전입니다.' :`<t:${eventData.startDate}> 에 시행될 예정입니다. \n [여기를 클릭해 신청하세요.](${eventRegisterChannelUrl})`,
             },
             {
                 name: eventData.isDone ? '\u200b' :'내전 설명',

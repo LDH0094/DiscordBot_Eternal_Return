@@ -46,9 +46,13 @@ module.exports = {
   
     currentDate.setDate(currentDate.getDate() + postDays);
     currentDate.setHours(getHours, getMins, 0, 0);
+    const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
+    const koreanTimezoneOffset = 9 * 60 * 60; // Korea Standard Time (KST) is UTC+9
+    const koreanTimestamp = timestampInSeconds + koreanTimezoneOffset;
+    console.log("my date: ", currentDate);
     const newEvent = new EventModel({
       eventName: eventName,
-      startDate: currentDate,
+      startDate: koreanTimestamp,
       createdAt: new Date(),
       description: eventDescription,
       isDone: false,

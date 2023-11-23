@@ -51,6 +51,11 @@ module.exports = {
 
     const _isDone = interaction.options.getBoolean("종료");
   
+    currentDate.setDate(currentDate.getDate() + postDays);
+    currentDate.setHours(getHours, getMins, 0, 0);
+    const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
+    const koreanTimezoneOffset = 9 * 60 * 60; // Korea Standard Time (KST) is UTC+9
+    const koreanTimestamp = timestampInSeconds + koreanTimezoneOffset;
 
 
     if (!interaction.member.roles.cache.has(process.env.EVENT_ADMIN_ID))
@@ -70,7 +75,7 @@ module.exports = {
           { _id: eventID }, // Query by the event ID
           {
             eventName: eventName === "" ? recentEvent.eventName: eventName,
-            startDate: currentDate ?? recentEvent.currentDate,
+            startDate: koreanTimestamp ?? recentEvent.currentDate,
             description: eventDescription === "" ? recentEvent.eventName: eventDescription,
             isDone: _isDone ?? recentEvent.isDone,
           },

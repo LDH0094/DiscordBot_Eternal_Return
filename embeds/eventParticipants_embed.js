@@ -11,7 +11,7 @@ async function createEventParticipantsEmbed(eventName, date, participants) {
         fields: [
             {
                 name: '자세한 정보',
-                value: `<t:${Math.floor(date.getTime() / 1000)}> 에 시행될 예정입니다. \n 늦지 않도록 유의해 주세요!`,
+                value: `<t:${date}> 에 시행될 예정입니다. \n 늦지 않도록 유의해 주세요!`,
             },
             {
                 name: '참가자들 명단',

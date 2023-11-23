@@ -11,7 +11,7 @@ function createEventJoinEmbed(eventName, date, eventData) {
         fields: [
             {
                 name: '자세한 정보',
-                value: `<t:${Math.floor(date.getTime() / 1000)}> 에 시행될 예정입니다. \n 늦지 않도록 유의해 주세요!`,
+                value: `<t:${eventData.startDate}> 에 시행될 예정입니다. \n 늦지 않도록 유의해 주세요!`,
             },
             {
                 name: '내전 ID',

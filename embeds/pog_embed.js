@@ -11,7 +11,7 @@ function createPOGEmbed(eventData) {
         fields: [
             {
                 name: '자세한 정보',
-                value: `<t:${Math.floor(eventData.startDate.getTime() / 1000)}> 에 시행된 내전입니다!`,
+                value: `<t:${eventData.startDate}> 에 시행된 내전입니다!`,
             },
             {
                 name: eventData.isDone ? '\u200b' :'내전 설명',

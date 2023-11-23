@@ -3,7 +3,7 @@ const UserModel = require('./user.schema');
 
 const eventSchema = new Schema({
   eventName: {type: String, required: true},
-  startDate: { type: Date, required: true},
+  startDate: { type: Number, required: true},
   description: {type: String, required: true},
   isDone: { type: Boolean },
   finishedDate: { type: Date},
