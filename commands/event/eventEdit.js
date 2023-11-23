@@ -46,8 +46,6 @@ module.exports = {
     const currentDate = new Date();
     const getHours = interaction.options.getNumber("몇시");
     const getMins = interaction.options.getNumber("몇분");
-    currentDate.setDate(currentDate.getDate() + postDays);
-    currentDate.setHours(getHours, getMins, 0, 0);
 
     const _isDone = interaction.options.getBoolean("종료");
   
