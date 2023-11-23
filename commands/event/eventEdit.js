@@ -44,13 +44,11 @@ module.exports = {
       interaction.options.getString("내전이름") ?? "";
       const eventDescription = interaction.options.getString("내전설명") ?? "";
     const currentDate = new Date();
-    const getHours = interaction.options.getNumber("몇시");
-    const getMins = interaction.options.getNumber("몇분");
-
     const _isDone = interaction.options.getBoolean("종료");
-  
+    const hours = interaction.options.getNumber("몇시");
+    const mins = interaction.options.getNumber("몇분");
     currentDate.setDate(currentDate.getDate() + postDays);
-    currentDate.setHours(getHours, getMins, 0, 0);
+    currentDate.setHours(hours, mins, 0, 0);
     const timestampInSeconds = Math.floor(currentDate.getTime() / 1000);
     const koreanTimestamp = timestampInSeconds ;
     console.log("my date: ", currentDate);
