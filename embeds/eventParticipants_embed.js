@@ -35,6 +35,7 @@ async function createEventParticipantsEmbed(eventName, date, participants) {
                 // Handle the error as needed
             }
         }
+        console.log("populated: ", populatedParticipants);
         console.log("users: ", populatedParticipants.length);
         if (populatedParticipants.length === 0){
             console.log('return!!');
